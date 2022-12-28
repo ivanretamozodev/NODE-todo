@@ -1,13 +1,11 @@
-const { resolve } = require('path');
-
 require('colors');
 
 const showMenu = () => {
     return new Promise((resolve) => {
         console.clear();
-        console.log('================='.green);
-        console.log('Select an Option'.green);
-        console.log('=================\n'.green);
+        console.log('============================'.green);
+        console.log('      Select an Option       '.green);
+        console.log('============================\n'.green);
 
         console.log(`${'1.'.green} Create Task`);
         console.log(`${'1.'.green} List Tasks`);
@@ -36,7 +34,7 @@ const pause = () => {
             output: process.stdout
         });
 
-        readLine.question(`Press ${'ENTER'.green} To Continue`, (option) => {
+        readLine.question(`\n Press ${'ENTER'.green} To Continue \n`, (option) => {
             readLine.close();
             resolve();
         });
