@@ -1,6 +1,6 @@
 require('colors');
 const Tasks = require('./models/tasks');
-const { inquirerMenu, pause, readInput } = require('./helpers/inquirer');
+const { inquirerMenu, pause, readInput, deleteMenu, confirm } = require('./helpers/inquirer');
 const { saveDB, readDB } = require('./helpers/database-control');
 
 const main = async () => {
@@ -25,6 +25,16 @@ const main = async () => {
                 break;
             case '4':
                 tasks.listCompletedAndPendingsTasks(false);
+                break;
+            case '6':
+                const id = await deleteMenu(tasks.listArray);
+                if (id !== '0') {
+                    const confirmAction = await confirm('Are you sure?');
+                    if (confirmAction) {
+                        tasks.deleteTask(id);
+                        console.log('Task deleted successfully!');
+                    }
+                }
                 break;
         }
         saveDB(tasks.listArray);
