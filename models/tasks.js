@@ -40,7 +40,7 @@ class Tasks {
             if (completed) {
                 if (createdAt) {
                     index += 1;
-                    console.log(`${(index + '.').green} ${description} :: ${createdAt}`);
+                    console.log(`${(index + '.').green} ${description} :: ${createdAt.green}`);
                 }
             } else {
                 if (!createdAt) {
@@ -55,6 +55,21 @@ class Tasks {
         if (this._list[id]) {
             delete this._list[id];
         }
+    }
+
+    toggleCompleted(ids = []) {
+        ids.forEach((id) => {
+            const task = this._list[id];
+            if (!task.createdAt) {
+                task.createdAt = new Date().toISOString();
+            }
+        });
+
+        this.listArray.forEach((task) => {
+            if (!ids.includes(task.id)) {
+                this._list[task.id].completedAt = null;
+            }
+        });
     }
 }
 
