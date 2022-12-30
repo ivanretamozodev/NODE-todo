@@ -1,10 +1,15 @@
 require('colors');
 const Tasks = require('./models/tasks');
 const { inquirerMenu, pause, readInput } = require('./helpers/inquirer');
+const { saveDB, readDB } = require('./helpers/database-control');
 
 const main = async () => {
     let option = '';
     const tasks = new Tasks();
+    const taskDB = readDB();
+    if (taskDB) {
+        tasks.loadTaskFromArray(taskDB);
+    }
     do {
         option = await inquirerMenu();
         switch (option) {
@@ -13,9 +18,16 @@ const main = async () => {
                 tasks.createTask(description);
                 break;
             case '2':
-                console.log(tasks.listArray);
+                tasks.showList();
+                break;
+            case '3':
+                tasks.listCompletedAndPendingsTasks(true);
+                break;
+            case '4':
+                tasks.listCompletedAndPendingsTasks(false);
                 break;
         }
+        saveDB(tasks.listArray);
         await pause();
     } while (option !== '0');
 
